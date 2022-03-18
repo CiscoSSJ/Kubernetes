@@ -1,0 +1,44 @@
+Comando básicos kubectl
+--------------------------------------------------------------------------------------------------------------------------
+kubectl version (Ver la versión intalada)
+kubectl run (Implementar aplicación en el cluster) - En la 1.18 solo creará POD
+kubectl cluster-info (Información sobre el cluster)
+kubectl get nodes (Nodos disponibles)
+kubectl create (Crea recursos via CLI o YAML) - En la 1.18 se le transladan las tareas del run
+kubectl apply (Crea y actualiza todo via YAML)
+kubectl delete deployment <nombre> (Borra todo lo relacionado con ese deployment)
+kubectl delete pod <nombre> (Borra el POD seleccionado)
+kubectl describe pods (Muestra información de los PODS)
+kubectl get pods -o wide (Muestra información de los PODS más detallada)
+kubectl logs <pod-deployment-replicaset/nombre>
+kubectl scale <pod-deployment-replicaset/nombre> --replicas x (Escala el deployment al número que especifiquemos)
+kubectl logs <pod-deployment-replicaset/nombre> --tail x --follow (Es como un tail -n)
+
+
+Archivos YAML
+--------------------------------------------------------------------------------------------------------------------------
+https://codebeautify.org/yaml-validator
+
+Tienen que contener SIEMPRE 4 elementos
+
+apiVersion (La cual variará según lo que creemos) https://kubernetes.io/docs/reference/#api-reference
+kind <Pod,ReplicaSet,deployment,service> (Tipo de objeto)
+metada [name,labels[app,type,...]....] (Diccionario)
+spec containers [name,image] (Diccionario)
+
+Ejemplo para Pod
+--------------------------------------------------------------------------------------------------------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app1-pod
+  labels:
+    app: app1
+    type: front-end
+spec:
+  containers:
+  -  name: nginx-containers
+     image: nginx
+
+$ cd ~/kubernetes
+$ kubectl create -f podtest.yml
