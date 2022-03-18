@@ -128,5 +128,17 @@ spec:
 
 $ cd ~/kubernetes
 $ kubectl apply -f dptest.yml
-$ kubectl get all
-$ kubectl describe deployment
+$ kubectl get all / kubectl describe deployment
+$ kubectl delete deployment app1-dp
+
+
+# **Actualización de Deployments**
+--------------------------------------------------------------------------------------------------------------------------
+Al realizar un nuevo deployment se hace un Rollout y se crea una nueva revisión del deployment, hay 2 tipos:
+
+Recreate - Se dan de baja a las instancias actuales para actualizarlas y subirlas a la vez (No muy recomendada)
+
+Rolling update - Bajas una, la actualizas y subes otra, y así sucesivamente (Suele ser la por defecto)
+
+Si algo sale mal puedes realizar un Rollback y volver a una versión anteriores, el deployment devolverá 1 a 1 todos los
+PODs anteriores mientras elimina los nuevos.
