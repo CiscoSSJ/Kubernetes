@@ -1,4 +1,4 @@
-Comando básicos kubectl
+# **Comando básicos kubectl**
 --------------------------------------------------------------------------------------------------------------------------
 kubectl version (Ver la versión intalada)
 kubectl run (Implementar aplicación en el cluster) - En la 1.18 solo creará POD
@@ -15,7 +15,7 @@ kubectl scale <pod-deployment-replicaset/nombre> --replicas x (Escala el deploym
 kubectl logs <pod-deployment-replicaset/nombre> --tail x --follow (Es como un tail -n)
 
 
-Archivos YAML
+# **Archivos YAML**
 --------------------------------------------------------------------------------------------------------------------------
 https://codebeautify.org/yaml-validator
 
@@ -26,7 +26,7 @@ kind <Pod,ReplicaSet,deployment,service> (Tipo de objeto)
 metada [name,labels[app,type,...]....] (Diccionario)
 spec containers [name,image] (Diccionario)
 
-Ejemplo para Pod
+# **Ejemplo para Pod**
 --------------------------------------------------------------------------------------------------------------------------
 apiVersion: v1
 kind: Pod
@@ -42,3 +42,91 @@ spec:
 
 $ cd ~/kubernetes
 $ kubectl create -f podtest.yml
+$ kubectl delete podtest.yml
+
+# **Ejemplo para ReplicaSet**
+--------------------------------------------------------------------------------------------------------------------------
+apiVersion: apps/v1
+kind: ReplicaSet
+metada:
+  name: app1-rs
+  labels:
+    app: app1
+    type: front-end
+spec:
+  template: 
+    metadata:
+      name: app1-pod
+      labels:
+        app: app1
+        type: front-end
+    spec:
+      containers:
+      - image:  nginx
+        name: nginx-container
+  replicas: 4
+  selector:
+    matchLabels:
+      type: front-end
+      app: app1
+
+$ kubectl apply -f rstest.yml
+$ kubectl get replicaset
+$ kubectl delete replicaset app1-rs
+
+# **Ejemplo para ReplicationController**
+--------------------------------------------------------------------------------------------------------------------------
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: app1-rc
+  labels:
+    app: app1
+    type: front-end
+spec:
+  template:
+    metadata:
+      name: app1-pod
+      labels:
+        app: app1
+        type: front-end
+    spec:
+      containers:
+      - image:  nginx
+        name: nginx-container
+  replicas: 2
+
+$ kubectl apply -f rctest.yml
+$ kubectl get replicationcontroller
+$ kubectl delete replicationcontroller app1-rc
+
+# **Ejemplo para Deployment**
+--------------------------------------------------------------------------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1-dp
+  labels:
+    app: app1
+    type: front-end
+spec:
+  template: 
+    metadata:
+      name: app1-pod
+      labels:
+        app: app1
+        type: front-end
+    spec:
+      containers:
+      - image: nginx
+        name: nginx-container
+  replicas: 5
+  selector:
+    matchLabels:
+      type: front-end
+      app: app1
+
+$ cd ~/kubernetes
+$ kubectl apply -f dptest.yml
+$ kubectl get all
+$ kubectl describe deployment
