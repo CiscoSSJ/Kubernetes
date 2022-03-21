@@ -146,3 +146,26 @@ Rolling update - Bajas una, la actualizas y subes otra, y así sucesivamente (Su
 
 Si algo sale mal puedes realizar un Rollback y volver a una versión anteriores, el deployment devolverá 1 a 1 todos los
 PODs anteriores mientras elimina los nuevos.
+
+
+# **Exponer servicios**
+--------------------------------------------------------------------------------------------------------------------------
+kubectl expose  ///   kubectl create
+
+ClusterIP expone el servicio en una IP interneta del cluster, cuando usamos kubectl expose es el servicio por defecto
+si no se especifica nada, este solo está disponible en el clúster
+Podrá usar el puerto de nuestra app sin necesidad de tener high ports
+
+NodePort funciona en cualquier configuración de Kubernetes y está diseñado para acceder desde fuera del cluster,
+en este caso si tendremos high ports (Por defecto 30.000-32768)
+
+LoadBalancer servicio externo de tercero ya sea proxy o firewall, por ejemplo AWS, Azure, GCP, OpenStack, etc...
+Los servicios NodePort y ClusterIP se crean automaticamente y son a los que se le redirecionará el tráfico el LoadBalancer externo
+
+ExternalName proporciona un alias interno para un DNS externo, esto hace que los clientes hagan solicitudos al DNS interno y este
+los redireccione al nombre.
+
+Para crear el servicio en base al archivo yml creado:
+$ kubectl apply -f servicetest.yml
+$ kubectl get services
+
