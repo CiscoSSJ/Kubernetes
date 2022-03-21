@@ -5,7 +5,7 @@ kubectl run (Implementar aplicación en el cluster) - En la 1.18 solo creará PO
 kubectl cluster-info (Información sobre el cluster)
 kubectl get nodes (Nodos disponibles)
 kubectl create (Crea recursos via CLI o YAML) - En la 1.18 se le transladan las tareas del run
-kubectl apply (Crea y actualiza todo via YAML)
+kubectl apply -f (Crea y actualiza todo via YAML)
 kubectl delete deployment <nombre> (Borra todo lo relacionado con ese deployment)
 kubectl delete pod <nombre> (Borra el POD seleccionado)
 kubectl describe pods (Muestra información de los PODS)
@@ -13,7 +13,11 @@ kubectl get pods -o wide (Muestra información de los PODS más detallada)
 kubectl logs <pod-deployment-replicaset/nombre>
 kubectl scale <pod-deployment-replicaset/nombre> --replicas x (Escala el deployment al número que especifiquemos)
 kubectl logs <pod-deployment-replicaset/nombre> --tail x --follow (Es como un tail -n)
-
+kubectl rollout status <deployment> (Ver estado del rollout)
+kubectl apply -f <nombre> --record (El --record añade un seguimiento para luego con history comprobarlo)
+kubectl rollout history <deployment> (Ver la revisión del deployment)
+set imagen (deployment-remoteset-pod)/<nombre> nginx-container=nginx:1.17.10 (Actualiza la imagen del contenedor)
+kubectl rollout undo deployment/<nombre> (Deshacer un rollback)
 
 # **Archivos YAML**
 --------------------------------------------------------------------------------------------------------------------------
